@@ -1,0 +1,23 @@
+# python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# model training junk
+*.hdf5
+*.tflite
+*.pkl
+
+# data files (optional — if dataset large)
+data/
+
+# system files
+.DS_Store
+Thumbs.db
+
+# vscode
+.vscode/
+
+# logs
+*.log
