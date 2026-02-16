@@ -38,7 +38,7 @@ GestureTalk/
 ### 1. Clone repo
 
 ```
-git clone https://github.com/YOUR_USERNAME/GestureTalk.git
+git clone https://github.com/shivanitammisetti/GestureTalk.git
 cd GestureTalk
 ```
 
