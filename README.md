@@ -15,23 +15,6 @@ It supports live prediction, sentence formation, and backend API integration for
 * FastAPI backend for UI integration
 * Modular production-style architecture
 
-## Project Structure
-
-```
-GestureTalk/
-│
-├── src/
-│   ├── api.py          # FastAPI backend
-│   ├── live_camera.py  # Camera + prediction UI
-│   ├── predict.py      # Model inference logic
-│   ├── trainModel.py
-│   └── dataCollection.py
-│
-├── models/
-├── data/
-├── requirements.txt
-└── README.md
-```
 
 ## Installation
 
