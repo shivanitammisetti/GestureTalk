@@ -33,9 +33,9 @@ class LandmarkInput(BaseModel):
 # -------- SERVE UI --------
 @app.get("/")
 def home():
-    file_path = os.path.join(os.path.dirname(__file__), "gesturetalk.html")
+    base_dir = os.path.dirname(os.path.dirname(__file__))
+    file_path = os.path.join(base_dir, "index.html")
     return FileResponse(file_path)
-
 # -------- PREDICT LETTER --------
 @app.post("/predict-letter")
 def predict_letter(data: LandmarkInput):
