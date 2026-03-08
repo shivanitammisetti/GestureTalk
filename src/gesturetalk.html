@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>GestureTalk</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<!-- MediaPipe -->
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="./src/styles.css">
+
+</head>
+<body>
+<div class="shell">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="logo-mark">
+        <svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+      </div>
+      <span class="logo-name">GestureTalk</span>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Main</div>
+      <div class="nav-item active" onclick="showPage('dashboard',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Dashboard
+      </div>
+      <div class="nav-divider"></div>
+      <div class="nav-label">Account</div>
+      <div class="nav-item" onclick="showPage('profile',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Profile
+      </div>
+      <div class="nav-item" onclick="showPage('settings',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M4.93 4.93l1.41 1.41M4.93 19.07l1.41-1.41M19.07 19.07l-1.41-1.41M12 2v2M12 20v2M2 12h2M20 12h2"/></svg>
+        Settings
+      </div>
+      <div class="nav-item" onclick="showPage('help',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        Help
+      </div>
+      <div class="nav-item" onclick="showPage('about',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        About
+      </div>
+    </div>
+    <div style="padding:0 12px;margin-top:auto;">
+      <button class="live-btn" onclick="showPage('live',null)">
+        <span class="dot"></span> Start Live Session
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- DASHBOARD -->
+    <div class="page active" id="page-dashboard">
+      <div class="page-header">
+     <h1>Hello There 👋</h1>
+        <p>Here's your gesture recognition overview</p>
+      </div>
+      <div class="stats-row">
+        <div class="stat-card"><div class="label">Total Sessions</div><div class="value">47</div><div class="sub">+3 this week</div></div>
+        <div class="stat-card"><div class="label">Words Formed</div><div class="value">1,284</div><div class="sub">avg 27 per session</div></div>
+        <div class="stat-card"><div class="label">Avg Accuracy</div><div class="value">91%</div><div class="sub">↑ 4% from last week</div></div>
+      </div>
+      <div class="dashboard-grid">
+        <div class="card">
+          <div class="cal-header">
+            <span class="month" id="cal-month"></span>
+            <div class="cal-nav"><button onclick="changeMonth(-1)">‹</button><button onclick="changeMonth(1)">›</button></div>
+          </div>
+          <div class="cal-grid" id="cal-grid"></div>
+        </div>
+        <div class="card">
+          <h3>Recent Sessions</h3>
+          <div class="session-list">
+            <div class="session-item"><div class="s-left"><span class="s-date">Today, 9:41 AM</span><span class="s-words">32 words · 4 min</span></div><span class="s-acc">94%</span></div>
+            <div class="session-item"><div class="s-left"><span class="s-date">Mar 5, 3:15 PM</span><span class="s-words">21 words · 3 min</span></div><span class="s-acc">89%</span></div>
+            <div class="session-item"><div class="s-left"><span class="s-date">Mar 4, 11:00 AM</span><span class="s-words">45 words · 7 min</span></div><span class="s-acc">92%</span></div>
+            <div class="session-item"><div class="s-left"><span class="s-date">Mar 3, 2:30 PM</span><span class="s-words">18 words · 2 min</span></div><span class="s-acc">87%</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Weekly Accuracy</h3>
+          <div class="bar-chart" id="bar-chart"></div>
+        </div>
+        <div class="card" style="display:flex;flex-direction:column;justify-content:space-between;">
+          <div>
+            <h3>Quick Actions</h3>
+            <p style="font-size:13px;color:var(--muted);line-height:1.6;">Start a new live session, review history, or adjust your recognition preferences.</p>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-top:20px;">
+            <button class="btn primary" onclick="showPage('live',null)" style="width:100%;padding:12px;">▶ &nbsp;New Live Session</button>
+            <button class="btn" onclick="showPage('settings',null)" style="width:100%;padding:12px;">⚙ &nbsp;Open Settings</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LIVE -->
+    <div class="page" id="page-live">
+      <div class="page-header">
+        <h1>Live Session</h1>
+        <p class="hint">
+             For best results, use a plain background and good lighting. Keep your hand centered and facing the camera.
+            </p>
+      </div>
+      <div class="live-layout">
+        <!-- Camera side -->
+        <div>
+          <div class="cam-container" id="cam-container">
+            <video id="input-video" autoplay playsinline muted></video>
+            <canvas id="output-canvas"></canvas>
+            <div class="cam-placeholder" id="cam-placeholder">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+              <p>Camera is off</p>
+            </div>
+            <!-- detected letter -->
+            <div class="detected-badge" id="detected-badge">
+              <div class="big-letter" id="detected-letter">—</div>
+              <div class="conf" id="detected-conf">Waiting…</div>
+            </div>
+            <!-- stable ring -->
+            <div class="stable-ring" id="stable-ring">
+              <svg width="44" height="44" viewBox="0 0 44 44">
+                <circle class="ring-bg" cx="22" cy="22" r="18"/>
+                <circle class="ring-fill" id="ring-fill" cx="22" cy="22" r="18"
+                  stroke-dasharray="113" stroke-dashoffset="113"/>
+              </svg>
+            </div>
+            <!-- warnings / status -->
+            <div class="warning-badge" id="warn-badge">⚠ Move hand closer</div>
+            <div class="api-status" id="api-status"><span class="s-dot"></span><span id="api-status-text"></span></div>
+          </div>
+
+          <div class="cam-controls">
+            <button class="btn primary" id="start-btn" onclick="toggleCamera()">▶ Start Camera</button>
+            <button class="btn" onclick="addSpace()">⎵ Space</button>
+            <button class="btn" onclick="deleteLast()">⌫ Delete</button>
+            <button class="btn" onclick="clearSentence()">✕ Clear</button>
+          </div>
+          
+          <div class="card" style="margin-top:16px;background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.25);">
+  <h3 style="margin-bottom:10px;">💡 Pro Tip</h3>
+
+  <p style="font-size:13px;color:var(--muted);line-height:1.6;">
+    Gesture shortcuts can speed up communication:
+  </p>
+
+  <ul style="font-size:13px;color:var(--text);margin-top:10px;line-height:1.7;padding-left:18px;">
+    <li><b>Open Palm ✋</b> → Inserts a <b>space</b> between words</li>
+    <li><b>Thumbs Up 👍</b> → Instantly <b>speaks the sentence</b></li>
+  </ul>
+
+  <p style="font-size:12px;color:var(--muted);margin-top:10px;">
+    Keep your hand steady for better recognition accuracy.
+  </p>
+</div>
+        </div>
+
+        <!-- Right panel -->
+        <div class="live-panel">
+          <div class="output-box">
+            <div class="ob-label">Current Sentence</div>
+            <div class="ob-text" id="sentence-output"><span class="cursor-blink"></span></div>
+          </div>
+          <div class="suggestions-box">
+            <div class="ob-label">Word Suggestions</div>
+            <div class="sugg-chips" id="sugg-chips">
+              <span style="font-size:13px;color:var(--muted);">Start signing to see suggestions…</span>
+            </div>
+          </div>
+          <div class="suggestions-box">
+            <div class="ob-label">Quick Controls</div>
+            <div class="actions-row">
+              <div class="action-key" onclick="addSpace()">Space <span>SPC</span></div>
+              <div class="action-key" onclick="deleteLast()">Delete <span>⌫</span></div>
+              <div class="action-key" onclick="clearSentence()">Clear <span>C</span></div>
+            </div>
+          </div>
+          <button class="speak-btn-lg" onclick="speakSentence()">🔊 &nbsp;Speak Sentence</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROFILE -->
+    <div class="page" id="page-profile">
+      <div class="page-header"><h1>Profile</h1><p>Manage your personal information</p></div>
+      <div class="card" style="max-width:560px;">
+        <div class="profile-avatar">A</div>
+        <div class="form-group">
+  <label class="form-label">Display Name</label>
+  <input class="form-input" id="profile-name" type="text" value="shivani"/>
+</div>
+
+<div class="form-group">
+  <label class="form-label">Email</label>
+  <input class="form-input" id="profile-email" type="email" value="shivani@gmail.com"/>
+</div>
+
+<div class="form-group">
+  <label class="form-label">Language</label>
+  <select class="form-select" id="profile-lang">
+    <option>English (ASL)</option>
+    <option>British Sign Language</option>
+    <option>Indian Sign Language</option>
+  </select>
+</div>
+         <button class="btn primary" style="margin-top:4px;" onclick="showSaveMessage()">
+  Save Changes
+</button>
+<p id="saveMsg" style="display:none;margin-top:10px;color:#22c55e;font-size:13px;">
+✔ Changes saved successfully
+</p>
+      </div>
+    </div>
+
+    <div class="page" id="page-settings">
+  <div class="page-header">
+    <h1>Settings</h1>
+    <p>Customize your GestureTalk experience</p>
+  </div>
+
+  <div class="settings-grid">
+
+    <!-- SPEECH SETTINGS -->
+    <div class="card">
+      <h3>Speech</h3>
+
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <div class="t-title">Auto Speak</div>
+          <div class="t-desc">Automatically speak the completed sentence</div>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="cfg-autospeak" checked>
+          <span class="toggle-track"></span>
+          <span class="toggle-thumb"></span>
+        </label>
+      </div>
+
+      <div class="form-group" style="margin-top:20px;">
+        <label class="form-label">Speech Speed</label>
+        <input class="form-input" id="cfg-rate" type="number" value="1.0" min="0.5" max="2.0" step="0.1"/>
+      </div>
+    </div>
+
+    <!-- ASSISTANCE -->
+    <div class="card">
+      <h3>Assistance</h3>
+
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <div class="t-title">Word Suggestions</div>
+          <div class="t-desc">Show suggested words while forming sentences</div>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="cfg-suggestions" checked>
+          <span class="toggle-track"></span>
+          <span class="toggle-thumb"></span>
+        </label>
+      </div>
+
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <div class="t-title">Distance Warning</div>
+          <div class="t-desc">Notify when your hand is too far from the camera</div>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="cfg-distance" checked>
+          <span class="toggle-track"></span>
+          <span class="toggle-thumb"></span>
+        </label>
+      </div>
+
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <div class="t-title">Save Session History</div>
+          <div class="t-desc">Store your past sessions and accuracy</div>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="cfg-history" checked>
+          <span class="toggle-track"></span>
+          <span class="toggle-thumb"></span>
+        </label>
+      </div>
+
+    <button class="btn primary" style="margin-top:20px;" onclick="applySettings()">
+  Save Changes
+</button>
+
+<p id="settings-msg" style="display:none;margin-top:10px;font-size:13px;color:#16a34a;">
+  ✓ Changes saved successfully
+</p>
+
+    </div>
+  </div>
+</div>
+
+<div class="page" id="page-help">
+  <div class="page-header">
+    <h1>Help</h1>
+    <p>Quick help for using GestureTalk</p>
+  </div>
+
+  <div class="card" style="max-width:640px;">
+
+    <div class="help-item">
+      <div class="q" onclick="toggleFaq(this)">
+        Why is my hand not being detected? <span>+</span>
+      </div>
+      <div class="a">
+        Make sure your hand is clearly visible in front of the camera.
+        Place your hand in the center of the frame and avoid moving too fast.
+        Good lighting also improves detection accuracy.
+      </div>
+    </div>
+
+    <div class="help-item">
+      <div class="q" onclick="toggleFaq(this)">
+        How should I position my hand? <span>+</span>
+      </div>
+      <div class="a">
+        Keep your palm facing the camera and ensure your entire hand is visible.
+        Try keeping a small distance between your hand and the camera so the system
+        can clearly detect your fingers.
+      </div>
+    </div>
+
+    <div class="help-item">
+      <div class="q" onclick="toggleFaq(this)">
+        What if the wrong letter appears? <span>+</span>
+      </div>
+      <div class="a">
+        Hold the gesture steady for a moment before changing to the next sign.
+        Sudden movement may reduce recognition accuracy.
+      </div>
+    </div>
+
+    <div class="help-item">
+      <div class="q" onclick="toggleFaq(this)">
+        Do I need to know sign language to use this? <span>+</span>
+      </div>
+      <div class="a">
+        Yes. GestureTalk recognizes standard hand signs.  
+        If you are new to sign language, you can refer to the hand signs guide below.
+      </div>
+    </div>
+
+    <div class="help-item">
+      <div class="q" onclick="toggleFaq(this)">
+        View Hand Signs Guide <span>+</span>
+      </div>
+      <div class="a" style="text-align:center;">
+        <p style="margin-bottom:12px;">Reference chart for common hand signs:</p>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:10px;">
+Click the chart to view it in full size
+</p>
+
+     <img src="/static/signlanguage.jpeg"
+     alt="Hand Sign Guide"
+     onclick="openImage(this.src)"
+     style="max-width:100%;cursor:pointer;border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,0.2);">
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="page" id="page-about">
+  <div class="page-header">
+    <h1>About</h1>
+    <p>Understanding GestureTalk</p>
+  </div>
+
+  <div class="card" style="max-width:650px;">
+    
+    <div class="about-hero">
+      <div class="big-logo-mark">
+        <svg viewBox="0 0 24 24">
+          <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
+          <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+          <line x1="6" y1="1" x2="6" y2="4"/>
+          <line x1="10" y1="1" x2="10" y2="4"/>
+          <line x1="14" y1="1" x2="14" y2="4"/>
+        </svg>
+      </div>
+
+      <h2>GestureTalk</h2>
+      <p>Bridging Sign Language and Spoken Communication</p>
+      <span class="version">v1.0.0</span>
+    </div>
+
+    <p style="font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:20px;">
+      GestureTalk is an assistive communication system designed to help people who use sign language communicate easily with others. 
+      Using a live camera feed, the system detects hand gestures in real time and converts them into meaningful text and speech.
+    </p>
+
+    <p style="font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:20px;">
+      Users simply perform sign language gestures in front of the camera. The system recognizes the gesture, converts it into text,
+      forms words or sentences, and can speak the message aloud using text-to-speech. This allows individuals who rely on sign
+      language to interact more naturally with people who may not understand it.
+    </p>
+
+    <p style="font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:24px;">
+      GestureTalk aims to reduce communication barriers and promote accessibility by turning hand gestures into spoken language
+      instantly, making everyday conversations more inclusive and accessible.
+    </p>
+
+    <div class="tech-stack">
+
+      <div class="tech-card">
+        <div class="tc-icon">📷</div>
+        <div class="tc-name">Live Gesture Detection</div>
+        <div class="tc-desc">Recognizes hand signs from camera input</div>
+      </div>
+
+      <div class="tech-card">
+        <div class="tc-icon">📝</div>
+        <div class="tc-name">Text Output</div>
+        <div class="tc-desc">Gestures converted into readable words</div>
+      </div>
+
+      <div class="tech-card">
+        <div class="tc-icon">🔊</div>
+        <div class="tc-name">Speech Output</div>
+        <div class="tc-desc">Text spoken aloud using TTS</div>
+      </div>
+
+      <div class="tech-card">
+        <div class="tc-icon">⚡</div>
+        <div class="tc-name">Real-Time Processing</div>
+        <div class="tc-desc">Instant recognition and response</div>
+      </div>
+
+      <div class="tech-card">
+        <div class="tc-icon">🤝</div>
+        <div class="tc-name">Accessibility</div>
+        <div class="tc-desc">Improves communication for the hearing & speech impaired</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<body>
+<script src="./src/app.js"></script>
+</body>
+</html>
