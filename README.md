@@ -74,3 +74,8 @@ http://127.0.0.1:8000/docs
 * Web UI integration
 * Cloud deployment
 
+## Live Demo
+
+<a href="https://shivanitammisetti.github.io/GestureTalk/" target="_blank">
+Try GestureTalk Live
+</a>
