@@ -69,13 +69,16 @@ http://127.0.0.1:8000/docs
 
 ## Future Improvements
 
-* Real-time hand gesture detection (MediaPipe)
-* ASL letter prediction using ML model
-* Sentence formation
-* Word suggestions
-* Text-to-speech output
-* FastAPI backend for UI integration
-* Modular production-style architecture
+* Smart Word Prediction  ✅
+* Two-way communication (text ↔ sign avatar)
+* Mobile Camera Mode
+* Word-level gesture recognition
+* Sentence correction
+* Conversation history
+* Learning mode
+* Accuracy Feedback
+* Noise-Robust Recognition
+* Multi-Person Recognition
 
 ## Live Demo
 
