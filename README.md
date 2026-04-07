@@ -69,10 +69,13 @@ http://127.0.0.1:8000/docs
 
 ## Future Improvements
 
-* Full ASL word recognition
-* Language model based sentence correction
-* Web UI integration
-* Cloud deployment
+* Real-time hand gesture detection (MediaPipe)
+* ASL letter prediction using ML model
+* Sentence formation
+* Word suggestions
+* Text-to-speech output
+* FastAPI backend for UI integration
+* Modular production-style architecture
 
 ## Live Demo
 
